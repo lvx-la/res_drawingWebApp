@@ -9,9 +9,8 @@ import (
     "sync"
 )
 
-//idとox oyがいる
 type GopherInfo struct {
-    ID, OX, OY string
+    ID string
 }
 
 func main() {
@@ -29,17 +28,14 @@ func main() {
         mrouter.HandleRequest(c.Writer, c.Request)
     })
 
-    /*
-    TODO 構造体システム直す
-    */
     mrouter.HandleConnect(func(s *melody.Session) {
         lock.Lock()
         //Goの構造体あるある　最初広げないと使えないやつだと思う
         for _, info := range gophers {
-            s.Write([]byte("set " + info.ID + " " + info.OX + " " + info.OY))
+            s.Write([]byte("set " + info.ID))
         }
         //ここで初期値の書き込み
-        gophers[s] = &GopherInfo{strconv.Itoa(counter), "0", "0"}
+        gophers[s] = &GopherInfo{strconv.Itoa(counter)}
         s.Write([]byte("iam " + gophers[s].ID))
         counter += 1 //IDのインクリメント
         lock.Unlock()
@@ -53,18 +49,13 @@ func main() {
         lock.Unlock()
     })
 
-    //受信は2つか4つで分岐する(ox oy)　(ox oy x y)
-    //送信を(set id ox oy x y)の6つかx y省略の4つにする
+  //ox oyはユーザーだけが知っとけばいい　必要な時だけ投げてくれって感じ
     mrouter.HandleMessage(func(s *melody.Session, msg []byte) {
         p := strings.Split(string(msg), " ")
         lock.Lock()
         info := gophers[s]
         if len(p) == 4 {
             mrouter.BroadcastOthers([]byte("set "+info.ID+" "+p[0]+" "+p[1]+" "+p[2]+" "+p[3]), s)
-        } else if len(p) == 4 {
-            info.OX = p[0]
-            info.OY = p[1]
-            mrouter.BroadcastOthers([]byte("set "+info.ID+" "+info.OX+" "+info.OY+" "+p[2]+" "+p[3]), s)
         }
         lock.Unlock()
     })

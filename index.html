@@ -63,26 +63,15 @@
         }
 
         function dis(id) {
-          var node = document.getElementById("gopher-" + id);
-          if (node) {
-            document.body.removeChild(node);
-          }
+          //とりあえず適当
+          alert(id + "が退出しました")
         }
 
-        /*
-          onMouseDown
-          onMouseMove
-          onMouseUp
-
-          set(myid, x, y, ox, oy)
-          ws.send(x, y, ox, oy).join(" "));
-          sendが可変長になる
-        */
         function onMouseDown(event) {
           if (myid > -1) {
               myxy[0] = event.clientX-event.target.getBoundingClientRect().left;
               myxy[1] = event.clientY-event.target.getBoundingClientRect().top;
-              ws.send([e.pageX, e.pageY].join(" "));
+              //ws.send([myxy[0], myxy[1]].join(" "));
               mf=true;
           }
         }
@@ -94,7 +83,7 @@
               myxy[2] = event.clientX-event.target.getBoundingClientRect().left;
               myxy[3] = event.clientY-event.target.getBoundingClientRect().top ;
               set(myid, myxy[0], myxy[1], myxy[2], myxy[3]);
-              ws.send([myxy[0], myxy[1], e.pageX, e.pageY].join(" "));
+              ws.send([myxy[0], myxy[1], myxy[2], myxy[3]].join(" "));
               myxy[0] = myxy[2];
               myxy[1] = myxy[3];
             }
