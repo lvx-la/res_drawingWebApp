@@ -22,9 +22,9 @@
           function mam_draw_init(){
             //初期設定
             can=document.getElementById("can");
-            //can.addEventListener("touchstart",onDown,false);
-            //can.addEventListener("touchmove",onMove,false);
-            //can.addEventListener("touchend",onUp,false);
+            can.addEventListener("touchstart",onDown,false);
+            can.addEventListener("touchmove",onMove,false);
+            can.addEventListener("touchend",onUp,false);
             can.addEventListener("mousedown",onMouseDown,false);
             can.addEventListener("mousemove",onMouseMove,false);
             can.addEventListener("mouseup",onMouseUp,false);
@@ -67,11 +67,33 @@
           alert(id + "が退出しました")
         }
 
+        function onDown(event){
+          mf=true;
+          myxy[0]=event.touches[0].pageX-event.target.getBoundingClientRect().left;
+          myxy[1]=event.touches[0].pageY-event.target.getBoundingClientRect().top;
+          event.stopPropagation();
+        }
+        function onMove(event){
+          if(mf){
+            myxy[2]=event.touches[0].pageX-event.target.getBoundingClientRect().left;
+            myxy[3]=event.touches[0].pageY-event.target.getBoundingClientRect().top;
+            set(myid, myxy[0], myxy[1], myxy[2], myxy[3]);
+            ws.send([myxy[0], myxy[1], myxy[2], myxy[3]].join(" "));
+            myxy[0] = myxy[2];
+            myxy[1] = myxy[3];
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+        function onUp(event){
+          mf=false;
+          event.stopPropagation();
+        }
+
         function onMouseDown(event) {
           if (myid > -1) {
               myxy[0] = event.clientX-event.target.getBoundingClientRect().left;
               myxy[1] = event.clientY-event.target.getBoundingClientRect().top;
-              //ws.send([myxy[0], myxy[1]].join(" "));
               mf=true;
           }
         }
