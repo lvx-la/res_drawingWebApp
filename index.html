@@ -3,24 +3,34 @@
     <meta charset="utf-8">
     <title>goofy gophers</title>
     <style>
-        body {
-          cursor: none;
-          overflow: hidden;
-        }
-        .gopher {
-          background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Go_gopher_mascot_bw.png/768px-Go_gopher_mascot_bw.png');
-          width: 95px;
-          height: 95px;
-          background-size: cover;
-          position: absolute;
-          left: 0px;
-          top: 0px;
-        }
+
     </style>
     <script>
         var url = "ws://" + window.location.host + "/ws";
         var ws = new WebSocket(url);
         var myid = -1;
+/* -------------------- */
+        var can;
+        var ct;
+        //var ox=0,oy=0,x=0,y=0;
+        var mf=false;
+          function mam_draw_init(){
+            //初期設定
+            can=document.getElementById("can");
+            can.addEventListener("touchstart",onDown,false);
+            can.addEventListener("touchmove",onMove,false);
+            can.addEventListener("touchend",onUp,false);
+            can.addEventListener("mousedown",onMouseDown,false);
+            can.addEventListener("mousemove",onMouseMove,false);
+            can.addEventListener("mouseup",onMouseUp,false);
+            ct=can.getContext("2d");
+            ct.strokeStyle="#000000";
+            ct.lineWidth=5;
+            ct.lineJoin="round";
+            ct.lineCap="round";
+            clearCan();
+          }
+/* -------------------- */
 
         ws.onmessage = function (msg) {
           var cmds = {"iam": iam, "set": set, "dis": dis};
@@ -37,6 +47,7 @@
           myid = id;
         }
 
+        //drawLineが(id x y ox oy)5変数でここに来ると思う
         function set(id, x, y) {
             //ウェブソケのidを元に動かすgopherを指定　なければ追加
           var node = document.getElementById("gopher-" + id);
@@ -58,6 +69,15 @@
             document.body.removeChild(node);
           }
         }
+
+        /*
+          onMouseDown
+          onMouseMove
+          onMouseUp
+
+          set(myid, x, y, ox, oy)
+          ws.send(x, y, ox, oy).join(" "));
+        */
 
         window.onmousemove = function (e) {
           if (myid > -1) {

@@ -9,6 +9,7 @@ import (
     "sync"
 )
 
+//idだけでいい説
 type GopherInfo struct {
     ID, X, Y string
 }
@@ -28,6 +29,7 @@ func main() {
         mrouter.HandleRequest(c.Writer, c.Request)
     })
 
+    //idだけに削ったバージョンでいいと思う
     mrouter.HandleConnect(func(s *melody.Session) {
         lock.Lock()
         //Goの構造体あるある　最初広げないと使えないやつだと思う
@@ -41,6 +43,7 @@ func main() {
         lock.Unlock()
     })
 
+    //そのままでJS側の関数潰せばいいと思う
     mrouter.HandleDisconnect(func(s *melody.Session) {
         lock.Lock()
         mrouter.BroadcastOthers([]byte("dis "+gophers[s].ID), s)
@@ -49,6 +52,8 @@ func main() {
         lock.Unlock()
     })
 
+    //受信を(x y ox oy)の4つにする
+    //送信を(set id x y ox oy)の6つにする
     mrouter.HandleMessage(func(s *melody.Session, msg []byte) {
         p := strings.Split(string(msg), " ")
         lock.Lock()
