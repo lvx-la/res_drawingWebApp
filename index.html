@@ -1,7 +1,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>goofy gophers</title>
+    <title>サンプル</title>
+    <meta name="viewport" content="width=device-width,init-scale=1,user-scalable=no,minimum-scale=1,maximum-scale=1">
     <style>
 
     </style>
@@ -13,13 +14,17 @@
         var can;
         var ct;
         //var ox=0,oy=0,x=0,y=0;
+        var myxy  = [0, 0, 0, 0];
+        //ここはGoの変数にしといたほうがユーザーにとっていいかも
+        var each_user = [];
+        
         var mf=false;
           function mam_draw_init(){
             //初期設定
             can=document.getElementById("can");
-            can.addEventListener("touchstart",onDown,false);
-            can.addEventListener("touchmove",onMove,false);
-            can.addEventListener("touchend",onUp,false);
+            //can.addEventListener("touchstart",onDown,false);
+            //can.addEventListener("touchmove",onMove,false);
+            //can.addEventListener("touchend",onUp,false);
             can.addEventListener("mousedown",onMouseDown,false);
             can.addEventListener("mousemove",onMouseMove,false);
             can.addEventListener("mouseup",onMouseUp,false);
@@ -28,7 +33,7 @@
             ct.lineWidth=5;
             ct.lineJoin="round";
             ct.lineCap="round";
-            clearCan();
+            //clearCan();
           }
 /* -------------------- */
 
@@ -47,20 +52,14 @@
           myid = id;
         }
 
-        //drawLineが(id x y ox oy)5変数でここに来ると思う
-        function set(id, x, y) {
-            //ウェブソケのidを元に動かすgopherを指定　なければ追加
-          var node = document.getElementById("gopher-" + id);
-          if (!node) {
-            node = document.createElement("div");
-            document.body.appendChild(node);
-            node.className = "gopher";
-            node.style.zIndex = id + 1;
-            node.id = "gopher-" + id;
-          }
-        //gopherを動かしているところ
-          node.style.left = x + "px";
-          node.style.top = y + "px";
+        //drawLineが(id ox oy x y)5変数
+        function set(id, ox, oy, x, y) {
+          //ウェブソケのidを元に色変えたいけどとりあえず第一変数はシカト
+          //描画
+          ct.beginPath();
+          ct.moveTo(ox,oy);
+          ct.lineTo(x,y);
+          ct.stroke();
         }
 
         function dis(id) {
@@ -77,23 +76,40 @@
 
           set(myid, x, y, ox, oy)
           ws.send(x, y, ox, oy).join(" "));
+          sendが可変長になる
         */
-
-        window.onmousemove = function (e) {
+        function onMouseDown(event) {
           if (myid > -1) {
-            //手元の関数呼びつつウェブソケで送信&Goでブロキャス
-            //joinはたぶん配列の間に勝手にスペース入れてくれるメソッド
-            set(myid, e.pageX, e.pageY);
-            ws.send([e.pageX, e.pageY].join(" "));
+              myxy[0] = event.clientX-event.target.getBoundingClientRect().left;
+              myxy[1] = event.clientY-event.target.getBoundingClientRect().top;
+              ws.send([e.pageX, e.pageY].join(" "));
+              mf=true;
           }
         }
+        function onMouseMove(event) {
+          if (myid > -1) {
+            if(mf){
+              //手元の関数呼びつつウェブソケで送信&Goでブロキャス
+              //joinはたぶん配列の間に勝手にスペース入れてくれるメソッド
+              myxy[2] = event.clientX-event.target.getBoundingClientRect().left;
+              myxy[3] = event.clientY-event.target.getBoundingClientRect().top ;
+              set(myid, myxy[0], myxy[1], myxy[2], myxy[3]);
+              ws.send([myxy[0], myxy[1], e.pageX, e.pageY].join(" "));
+              myxy[0] = myxy[2];
+              myxy[1] = myxy[3];
+            }
+          }
+        }
+        function onMouseUp(event) {
+          mf = false;
+        }
+
     </script>
 </head>
-<body>
+<body onload="mam_draw_init();">
     <h3>手書きお絵かきJavascriptサンプル</h3>
     <div style="border:solid 1px #000000;width:400px;" id="candiv">
       <canvas id="can" width="400px" height="300px"></canvas>
     </div>
-    <input type="button" onClick="clearCan();" value="クリア" style="width:100;height:30;" data-inline="true" />
 </body>
 </html>
