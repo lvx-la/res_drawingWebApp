@@ -4,7 +4,9 @@
     <title>サンプル</title>
     <meta name="viewport" content="width=device-width,init-scale=1,user-scalable=no,minimum-scale=1,maximum-scale=1">
     <style>
-
+      .video-wrap {
+        position: relative;
+      }
     </style>
     <script>
         var url = "ws://" + window.location.host + "/ws";
@@ -34,6 +36,7 @@
             ct.lineJoin="round";
             ct.lineCap="round";
             //clearCan();
+            videocap()
           }
 /* -------------------- */
 
@@ -115,12 +118,34 @@
           mf = false;
         }
 
+        function videocap(){
+            let video = document.getElementById("video");
+          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
+          //インカメなら
+          navigator.getUserMedia({video: true, audio: false},
+            (stream) => {
+                this.localStream = stream;//localStreamはMediaStream.addTrack()を実装するためのトリガー
+                video.srcObject = stream;
+            },
+            (err) => {
+                console.log(err);
+            }
+          );
+        }
+
+        
+
     </script>
 </head>
 <body onload="mam_draw_init();">
     <h3>手書きお絵かきJavascriptサンプル</h3>
-    <div style="border:solid 1px #000000;width:1080px;" id="candiv">
-      <canvas id="can" width="1080px" height="1920px"></canvas>
+    <div >
+      
+    </div>
+    
+    <div class="video-wrap" style="border:solid 1px #000000; width:1280px; height:720;" id="candiv">
+      <video id="video" width="1280" height="720" autoplay="1" style="position: absolute; z-index: 1;" ></video>
+      <canvas id="can" width="1280px" height="720px" style="position: absolute; z-index: 2;"></canvas>
     </div>
 </body>
 </html>
