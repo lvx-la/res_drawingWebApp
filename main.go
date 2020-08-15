@@ -20,6 +20,9 @@ func main() {
     lock := new(sync.Mutex)
     counter := 0 //接続した順にIDが振られる
 
+    router.Static("/js", "./js")
+    router.Static("/css", "./css")
+
     router.GET("/", func(c *gin.Context) {
         http.ServeFile(c.Writer, c.Request, "index.html")
     })

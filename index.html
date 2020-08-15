@@ -3,149 +3,16 @@
     <meta charset="utf-8">
     <title>サンプル</title>
     <meta name="viewport" content="width=device-width,init-scale=1,user-scalable=no,minimum-scale=1,maximum-scale=1">
-    <style>
-      .video-wrap {
-        position: relative;
-      }
-    </style>
-    <script>
-        var url = "ws://" + window.location.host + "/ws";
-        var ws = new WebSocket(url);
-        var myid = -1;
-/* -------------------- */
-        var can;
-        var ct;
-        //var ox=0,oy=0,x=0,y=0;
-        var myxy  = [0, 0, 0, 0];
-        //ここはGoの変数にしといたほうがユーザーにとっていいかも
-        var each_user = [];
-        
-        var mf=false;
-          function mam_draw_init(){
-            //初期設定
-            can=document.getElementById("can");
-            can.addEventListener("touchstart",onDown,false);
-            can.addEventListener("touchmove",onMove,false);
-            can.addEventListener("touchend",onUp,false);
-            can.addEventListener("mousedown",onMouseDown,false);
-            can.addEventListener("mousemove",onMouseMove,false);
-            can.addEventListener("mouseup",onMouseUp,false);
-            ct=can.getContext("2d");
-            ct.strokeStyle="#000000";
-            ct.lineWidth=5;
-            ct.lineJoin="round";
-            ct.lineCap="round";
-            //clearCan();
-            videocap()
-          }
-/* -------------------- */
-
-        ws.onmessage = function (msg) {
-          var cmds = {"iam": iam, "set": set, "dis": dis};
-          if (msg.data) {
-            var parts = msg.data.split(" ")
-            var cmd = cmds[parts[0]];
-            if (cmd) {
-              cmd.apply(null, parts.slice(1));
-            }
-          }
-        };
-
-        function iam(id) {
-          myid = id;
-        }
-
-        //drawLineが(id ox oy x y)5変数
-        function set(id, ox, oy, x, y) {
-          //ウェブソケのidを元に色変えたいけどとりあえず第一変数はシカト
-          //描画
-          ct.beginPath();
-          ct.moveTo(ox,oy);
-          ct.lineTo(x,y);
-          ct.stroke();
-        }
-
-        function dis(id) {
-          //とりあえず適当
-          alert(id + "が退出しました")
-        }
-
-        function onDown(event){
-          mf=true;
-          myxy[0]=event.touches[0].pageX-event.target.getBoundingClientRect().left;
-          myxy[1]=event.touches[0].pageY-event.target.getBoundingClientRect().top;
-          event.stopPropagation();
-        }
-        function onMove(event){
-          if(mf){
-            myxy[2]=event.touches[0].pageX-event.target.getBoundingClientRect().left;
-            myxy[3]=event.touches[0].pageY-event.target.getBoundingClientRect().top;
-            set(myid, myxy[0], myxy[1], myxy[2], myxy[3]);
-            ws.send([myxy[0], myxy[1], myxy[2], myxy[3]].join(" "));
-            myxy[0] = myxy[2];
-            myxy[1] = myxy[3];
-            event.preventDefault();
-            event.stopPropagation();
-          }
-        }
-        function onUp(event){
-          mf=false;
-          event.stopPropagation();
-        }
-
-        function onMouseDown(event) {
-          if (myid > -1) {
-              myxy[0] = event.clientX-event.target.getBoundingClientRect().left;
-              myxy[1] = event.clientY-event.target.getBoundingClientRect().top;
-              mf=true;
-          }
-        }
-        function onMouseMove(event) {
-          if (myid > -1) {
-            if(mf){
-              //手元の関数呼びつつウェブソケで送信&Goでブロキャス
-              //joinはたぶん配列の間に勝手にスペース入れてくれるメソッド
-              myxy[2] = event.clientX-event.target.getBoundingClientRect().left;
-              myxy[3] = event.clientY-event.target.getBoundingClientRect().top ;
-              set(myid, myxy[0], myxy[1], myxy[2], myxy[3]);
-              ws.send([myxy[0], myxy[1], myxy[2], myxy[3]].join(" "));
-              myxy[0] = myxy[2];
-              myxy[1] = myxy[3];
-            }
-          }
-        }
-        function onMouseUp(event) {
-          mf = false;
-        }
-
-        function videocap(){
-            let video = document.getElementById("video");
-          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
-          //インカメなら
-          navigator.getUserMedia({video: true, audio: false},
-            (stream) => {
-                this.localStream = stream;//localStreamはMediaStream.addTrack()を実装するためのトリガー
-                video.srcObject = stream;
-            },
-            (err) => {
-                console.log(err);
-            }
-          );
-        }
-
-        
-
-    </script>
+    <script src="js/canvas.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    
 </head>
 <body onload="mam_draw_init();">
     <h3>手書きお絵かきJavascriptサンプル</h3>
-    <div >
-      
-    </div>
-    
-    <div class="video-wrap" style="border:solid 1px #000000; width:1280px; height:720;" id="candiv">
-      <video id="video" width="1280" height="720" autoplay="1" style="position: absolute; z-index: 1;" ></video>
-      <canvas id="can" width="1280px" height="720px" style="position: absolute; z-index: 2;"></canvas>
+
+    <div class="video-wrap" id="candiv">
+      <video id="video" width="1280" height="720" autoplay="1"></video>
+      <canvas id="can" width="1280px" height="720px"></canvas>
     </div>
 </body>
 </html>
