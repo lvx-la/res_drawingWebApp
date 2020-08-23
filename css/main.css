@@ -5,7 +5,7 @@
     height:720;
 }
 
-#video {
+#remote_video {
     position: absolute; 
     z-index: 1;
 }

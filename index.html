@@ -8,11 +8,18 @@
     
 </head>
 <body onload="mam_draw_init();">
-    <h3>手書きお絵かきJavascriptサンプル</h3>
+    <h3>どこでもお絵かきサンプル</h3>
+
+    <button type="button" onclick="startVideo();">Start Video</button>
+    <button type="button" onclick="stopVideo();">Stop Video</button>
+    &nbsp;
+    <button type="button" onclick="connect();">Connect</button>
+    <button type="button" onclick="hangUp();">Hang Up</button>
+    <video id="local_video" autoplay style="width: 160px; height: 120px; border: 1px solid black;"></video>
 
     <div class="video-wrap" id="candiv">
-      <video id="video" width="1280" height="720" autoplay="1"></video>
       <canvas id="can" width="1280px" height="720px"></canvas>
+      <video id="remote_video" width="1280" height="720" autoplay="1"></video>   
     </div>
 </body>
 </html>

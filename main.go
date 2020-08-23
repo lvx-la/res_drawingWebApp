@@ -7,6 +7,8 @@ import (
     "strconv"
     "strings"
     "sync"
+    "fmt"
+    "time"
 )
 
 type GopherInfo struct {
@@ -20,6 +22,12 @@ func main() {
     lock := new(sync.Mutex)
     counter := 0 //接続した順にIDが振られる
 
+    mrouter.Upgrader.ReadBufferSize = 8192
+    mrouter.Upgrader.WriteBufferSize = 8192
+    mrouter.Upgrader.HandshakeTimeout = 10 * time.Second
+    mrouter.Config.MaxMessageSize = 8192
+    mrouter.Config.MessageBufferSize = 8192
+
     router.Static("/js", "./js")
     router.Static("/css", "./css")
 
@@ -29,6 +37,15 @@ func main() {
 
     router.GET("/ws", func(c *gin.Context) {
         mrouter.HandleRequest(c.Writer, c.Request)
+    })
+
+    mrouter.HandleError(func(s *melody.Session, err error){
+        fmt.Println("ERROR ERROR")
+        fmt.Println(err)
+    })
+
+    mrouter.HandleMessageBinary(func(s *melody.Session, binmsg []byte) {
+        fmt.Println("BINARY MESSAGE")
     })
 
     mrouter.HandleConnect(func(s *melody.Session) {
@@ -56,9 +73,11 @@ func main() {
     mrouter.HandleMessage(func(s *melody.Session, msg []byte) {
         p := strings.Split(string(msg), " ")
         lock.Lock()
-        info := gophers[s]
-        if len(p) == 4 {
-            mrouter.BroadcastOthers([]byte("set "+info.ID+" "+p[0]+" "+p[1]+" "+p[2]+" "+p[3]), s)
+        if p[0] == "Draw" {
+            info := gophers[s]
+            mrouter.BroadcastOthers([]byte("set "+info.ID+" "+p[1]+" "+p[2]+" "+p[3]+" "+p[4]), s)
+        } else {
+            mrouter.BroadcastOthers(msg, s)
         }
         lock.Unlock()
     })
