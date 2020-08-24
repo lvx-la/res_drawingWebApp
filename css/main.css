@@ -12,10 +12,10 @@
 
 #local_video {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
 }
 
 #can {
     position: absolute;
-    z-index: 3;
+    z-index: 2;
 }

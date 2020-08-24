@@ -27,13 +27,12 @@ var mf=false;
 
     localVideo = document.getElementById("local_video");
     remoteVideo = document.getElementById("remote_video");
-    //clearCan();
     //videocap();
     }
 
 
     ws.onmessage = function (msg) {
-        var cmds = {"iam": iam, "set": set, "dis": dis};
+        var cmds = {"iam": iam, "set": set, "dis": dis, "clear": clearCan};
         if (msg.data) {
           var parts = msg.data.split(" ")
           var cmd = cmds[parts[0]];
@@ -136,6 +135,18 @@ function onMouseMove(event) {
 function onMouseUp(event) {
     mf = false;
 }
+
+function clearcontrol() {
+    ws.send("clear");
+    clearCan();
+}
+
+function clearCan(){
+    ct.fillStyle="rgb(255,255,255)";
+    ct.fillRect(0,0,can.getBoundingClientRect().width,can.getBoundingClientRect().height);
+}
+
+/*---------------------------------- Video Script ----------------------------------------- */
 
   let localStream = null;
   let peerConnection = null;
