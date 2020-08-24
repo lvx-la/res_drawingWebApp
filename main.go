@@ -9,6 +9,7 @@ import (
     "sync"
     "fmt"
     "time"
+    "os"
 )
 
 type GopherInfo struct {
@@ -82,6 +83,7 @@ func main() {
         lock.Unlock()
     })
 
-    router.Run(":5000")
+    port := os.Getenv("PORT")
+    router.Run(":" + port)
 
 }
