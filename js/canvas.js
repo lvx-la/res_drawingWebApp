@@ -1,7 +1,3 @@
-/*
-
-
-*/
 
 /* WebSocket */
 var url = "ws://" + window.location.host + "/ws";
@@ -25,7 +21,6 @@ var mf=false;
     can.addEventListener("mousemove",onMouseMove,false);
     can.addEventListener("mouseup",onMouseUp,false);
     ct=can.getContext("2d");
-    ct.strokeStyle="#000000";
     ct.lineWidth=5;
     ct.lineJoin="round";
     ct.lineCap="round";
@@ -76,8 +71,13 @@ function iam(id) {
 
 //(id ox oy x y)5変数
 function set(id, ox, oy, x, y) {
-    //ウェブソケのidを元に色変えたいけどとりあえず第一変数はシカト
     //描画
+    if (id % 2) {
+        ct.strokeStyle="#ff1493";
+    } else {
+        ct.strokeStyle="#7fff00";
+    }
+    
     ct.beginPath();
     ct.moveTo(ox,oy);
     ct.lineTo(x,y);
