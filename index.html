@@ -18,12 +18,18 @@
     <button type="button" onclick="connect();" class="btn btn-success">Connect</button>
     <button type="button" onclick="hangUp();" class="btn btn-warning">Hang Up</button>
     
-
-    <div class="video-wrap" id="candiv">
-        <video id="local_video" autoplay style="width: 160px; height: 120px; border: 1px solid black;"></video>
-        <canvas id="can" width="1280px" height="720px"></canvas>
-        <video id="remote_video" width="1280" height="720" autoplay="1"></video>   
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="video-wrap" id="candiv">
+                  <video id="local_video" autoplay style="width: 160px; height: 120px; border: 1px solid black;"></video>
+                  <canvas id="can" width="1280px" height="720px"></canvas>
+                  <video id="remote_video" width="1280" height="720" autoplay="1"></video>   
+                </div>
+            </div>
+        </div>
     </div>
+    
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
