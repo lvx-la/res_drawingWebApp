@@ -12,20 +12,40 @@
 <body onload="mam_draw_init();">
     <h3>どこでもお絵かき</h3>
 
-    <button type="button" onclick="startVideo();" class="btn btn-primary">Start Video</button>
-    <button type="button" onclick="stopVideo();" class="btn btn-danger">Stop Video</button>
-    &nbsp;
-    <button type="button" onclick="connect();" class="btn btn-success">Connect</button>
-    <button type="button" onclick="hangUp();" class="btn btn-warning">Hang Up</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10">
+                <button type="button" onclick="startVideo();" class="btn btn-primary">Start Video</button>
+                <button type="button" onclick="stopVideo();" class="btn btn-danger">Stop Video</button>
+                &nbsp;
+                <button type="button" onclick="connect();" class="btn btn-success">Connect</button>
+                <button type="button" onclick="hangUp();" class="btn btn-warning">Hang Up</button>
+            </div>
+
+            <div class="col-sm-1">
+                <p id=pointValueMe>0</p>
+            </div>
+            
+            <div class="col-sm-1">
+                <p id=pointValueEn>0</p>
+            </div>
+
     
+            
+
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
+
                 <div class="video-wrap" id="candiv">
                   <video id="local_video" autoplay style="width: 160px; height: 120px; border: 1px solid black;"></video>
                   <canvas id="can" width="1280px" height="720px"></canvas>
                   <video id="remote_video" width="1280" height="720" autoplay="1"></video>   
                 </div>
+
             </div>
         </div>
     </div>
