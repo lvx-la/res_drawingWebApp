@@ -27,13 +27,15 @@ var mf=false;
 
     localVideo = document.getElementById("local_video");
     remoteVideo = document.getElementById("remote_video");
-    //clearCan();
     //videocap();
+
+    pointValueMe = document.getElementById("pointValueMe");
+    pointValueEn = document.getElementById("pointValueEn");
     }
 
 
     ws.onmessage = function (msg) {
-        var cmds = {"iam": iam, "set": set, "dis": dis};
+        var cmds = {"iam": iam, "set": set, "dis": dis, "clear": clearCan};
         if (msg.data) {
           var parts = msg.data.split(" ")
           var cmd = cmds[parts[0]];
@@ -69,14 +71,39 @@ function iam(id) {
     myid = id;
 }
 
+//ロードされた時に初期化される グロ変
+pointA = 0
+pointB = 0
+
+function pointAdd(id) {
+  
+  if (id == myid) {
+    pointA++;
+    pointValueMe.innerHTML = pointA;
+  } else {
+    pointB++;
+    pointValueEn.innerHTML = pointB;
+  }
+
+  if (pointA > pointB) {
+    pointValueMe.style.fontSize = "30px"
+    pointValueEn.style.fontSize = "20px"
+  } else {
+    pointValueEn.style.fontSize = "30px"
+    pointValueMe.style.fontSize = "20px"
+  }
+
+}
 //(id ox oy x y)5変数
 function set(id, ox, oy, x, y) {
     //描画
-    if (id % 2) {
-        ct.strokeStyle="#ff1493";
-    } else {
+    if (id == myid) {
         ct.strokeStyle="#7fff00";
+    } else {
+        ct.strokeStyle="#ff1493";
     }
+
+    pointAdd(id);
     
     ct.beginPath();
     ct.moveTo(ox,oy);
@@ -136,6 +163,18 @@ function onMouseMove(event) {
 function onMouseUp(event) {
     mf = false;
 }
+
+function clearcontrol() {
+    ws.send("clear");
+    clearCan();
+}
+
+function clearCan(){
+    ct.fillStyle="rgb(255,255,255)";
+    ct.fillRect(0,0,can.getBoundingClientRect().width,can.getBoundingClientRect().height);
+}
+
+/*---------------------------------- Video Script ----------------------------------------- */
 
   let localStream = null;
   let peerConnection = null;
