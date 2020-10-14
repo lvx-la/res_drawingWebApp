@@ -1,26 +1,65 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>サンプル</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>どこでもお絵かき</title>
     <meta name="viewport" content="width=device-width,init-scale=1,user-scalable=no,minimum-scale=1,maximum-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="js/canvas.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
 </head>
 <body onload="mam_draw_init();">
-    <h3>どこでもお絵かきサンプル</h3>
+    <h1>どこでもお絵かき</h1>
 
-    <button type="button" onclick="startVideo();">Start Video</button>
-    <button type="button" onclick="stopVideo();">Stop Video</button>
-    &nbsp;
-    <button type="button" onclick="connect();">Connect</button>
-    <button type="button" onclick="hangUp();">Hang Up</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10">
+                <button type="button" onclick="startVideo();" class="btn btn-primary">Start Video</button>
+                <button type="button" onclick="stopVideo();" class="btn btn-danger">Stop Video</button>
+                &nbsp;
+                <button type="button" onclick="connect();" class="btn btn-success">Connect</button>
+                <button type="button" onclick="hangUp();" class="btn btn-warning">Hang Up</button>
+                <p id=uTime>10</p>
+            </div>
+
+            <div class="col-sm-2">
+                <p id=score>score</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p id=pointValueMe>0</p>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <p id=pointValueEn>0</p>
+                    </div>
+                </div>
+            </div>
+
+
+    
+            
+
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="video-wrap" id="candiv">
+                  <video id="local_video" autoplay style="width: 160px; height: 120px; border: 1px solid black;"></video>
+                  <canvas id="can" width="1280px" height="720px"></canvas>
+                  <video id="remote_video" width="1280" height="720" autoplay="1"></video>   
+                </div>
+
+            </div>
+        </div>
+    </div>
     
 
-    <div class="video-wrap" id="candiv">
-      <canvas id="can" width="1280px" height="720px"></canvas>
-      <video id="local_video" autoplay style="width: 160px; height: 120px; border: 1px solid black;"></video>
-      <video id="remote_video" width="1280" height="720" autoplay="1"></video>   
-    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
