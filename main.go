@@ -90,7 +90,25 @@ func main() {
 
 func clearTimer(mrouter *melody.Melody) {
     for {
-        time.Sleep(10 * time.Second)
+        time.Sleep(5 * time.Minute)
+        mrouter.Broadcast([]byte("countDown 5"))
+        time.Sleep(2 * time.Minute)
+        mrouter.Broadcast([]byte("countDown 3"))
+        time.Sleep(2 * time.Minute)
+        mrouter.Broadcast([]byte("countDown 1"))
+        time.Sleep(55 * time.Second)
+        mrouter.Broadcast([]byte("countDown 5"))
+        time.Sleep(time.Second)
+        mrouter.Broadcast([]byte("countDown 4"))
+        time.Sleep(time.Second)
+        mrouter.Broadcast([]byte("countDown 3"))
+        time.Sleep(time.Second)
+        mrouter.Broadcast([]byte("countDown 2"))
+        time.Sleep(time.Second)
+        mrouter.Broadcast([]byte("countDown 1"))
+
+        time.Sleep(time.Second)
         mrouter.Broadcast([]byte("clear"))
+        mrouter.Broadcast([]byte("countDown 10"))
     }
 }
