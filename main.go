@@ -83,6 +83,8 @@ func main() {
         lock.Unlock()
     })
 
+    go clearTimer(mrouter)
+
     port := os.Getenv("PORT")
     router.Run(":" + port)
 
