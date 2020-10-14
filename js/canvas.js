@@ -29,13 +29,14 @@ function mam_draw_init(){
     remoteVideo = document.getElementById("remote_video");
     //videocap();
 
+    docUTime = document.getElementById("uTime");
     pointValueMe = document.getElementById("pointValueMe");
     pointValueEn = document.getElementById("pointValueEn");
 }
 
 
 ws.onmessage = function (msg) {
-    var cmds = {"iam": iam, "set": set, "dis": dis, "clear": clearCan};
+    var cmds = {"iam": iam, "set": set, "dis": dis, "clear": clearCan, "countDown": countDown};
     if (msg.data) {
         var parts = msg.data.split(" ")
         var cmd = cmds[parts[0]];
@@ -166,9 +167,8 @@ function onMouseUp(event) {
     mf = false;
 }
 
-function clearcontrol() {
-    ws.send("clear");
-    clearCan();
+function countDown(uTime) {
+    docUTime.innerHTML = uTime;
 }
 
 function clearCan(){

@@ -82,6 +82,15 @@ func main() {
         lock.Unlock()
     })
 
+    go clearTimer(mrouter)
+
     router.Run(":5000")
 
+}
+
+func clearTimer(mrouter *melody.Melody) {
+    for {
+        time.Sleep(10 * time.Second)
+        mrouter.Broadcast([]byte("clear"))
+    }
 }
