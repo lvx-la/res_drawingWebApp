@@ -1,6 +1,6 @@
 
 /* WebSocket */
-var url = "ws://" + window.location.host + "/ws";
+var url = "wss://" + window.location.host + "/ws";
 var ws = new WebSocket(url);
 var myid = -1;
 
