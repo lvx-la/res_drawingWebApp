@@ -192,17 +192,27 @@ RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection |
 RTCSessionDescription = window.RTCSessionDescription || window.webkitRTCSessionDescription || window.mozRTCSessionDescription;
 
 // ---------------------- media handling ----------------------- 
+function successCallback(stream) {
+    localStream = stream;
+    localVideo.srcObject = stream;
+}
+
+function errorCallback(err) {
+    alert(err);
+}
+
 // start local video
 function startVideo() {
-  getDeviceStream({video: true, audio: false})
-  .then(function (stream) { // success
-    localStream = stream;
-    playVideo(localVideo, stream);
-  }).catch(function (error) { // error
-    console.error('getUserMedia error:', error);
-    return;
-  });
+    const medias = {
+        audio : false,
+        video : true
+    };
+    const promise = navigator.mediaDevices.getUserMedia(medias)
+
+    promise.then(successCallback, errorCallback);
+
 }
+
 
 // stop local video
 function stopVideo() {
