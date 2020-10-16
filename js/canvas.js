@@ -1,6 +1,6 @@
 
 /* WebSocket */
-var url = "wss://" + window.location.host + "/ws";
+var url = "ws://" + window.location.host + "/ws";
 var ws = new WebSocket(url);
 var myid = -1;
 
@@ -334,7 +334,7 @@ function prepareNewConnection() {
     // -- add local stream --
     if (localStream) {
         console.log('Adding local stream...');
-        peer.addStream(localStream);
+        let videoSender = peer.addTrack(localStream.getVideoTracks()[0], localStream);
     }
     else {
         console.warn('no local stream, but continue.');
