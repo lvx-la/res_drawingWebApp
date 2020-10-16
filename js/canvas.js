@@ -281,7 +281,11 @@ function sendSdp(sessionDescription) {
 
 // ---------------------- connection handling -----------------------
 function prepareNewConnection() {
-    let pc_config = {"iceServers":[]};
+    let pc_config = {"iceServers":[
+        {"urls": "stun:stun.l.google.com:19302"},
+        {"urls": "stun:stun1.l.google.com:19302"},
+        {"urls": "stun:stun2.l.google.com:19302"}
+    ]};
     let peer = new RTCPeerConnection(pc_config);
 
     // --- on get remote stream ---
