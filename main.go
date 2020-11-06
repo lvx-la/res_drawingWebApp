@@ -72,6 +72,8 @@ func main() {
     lock := new(sync.Mutex)
     counter := 0 //接続した順にIDが振られる
 
+    dbInit()
+
     mrouter.Upgrader.ReadBufferSize = 8192
     mrouter.Upgrader.WriteBufferSize = 8192
     mrouter.Upgrader.HandshakeTimeout = 10 * time.Second
@@ -142,10 +144,16 @@ func main() {
 
 }
 
-func storeData() {
+func storeData() int{
     if len(gophers) > 2 {
         fmt.Println("Error: too much gophers")
     }
+
+    //ソロはデータを入力しない
+    if len(gophers) == 1{
+        return 0
+    }
+
     var arr[2] int
 
     n := 0
@@ -156,6 +164,7 @@ func storeData() {
     }
 
     dbInsert(arr[0], arr[1])
+    return 0
 }
 
 
