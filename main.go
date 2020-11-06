@@ -3,6 +3,7 @@ package main
 import (
     "github.com/gin-gonic/gin"
     "gopkg.in/olahol/melody.v1"
+    "github.com/jinzhu/gorm"
     "net/http"
     "strconv"
     "strings"
@@ -11,15 +12,63 @@ import (
     "time"
 )
 
+type Score struct {
+    gorm.Model
+    ScoreA int
+    ScoreB int
+}
+
+func dbInit() {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbinit: Can not open database")
+    }
+    db.AutoMigrate(&Score{})
+    defer db.Close()
+}
+
+func dbInsert(scoreA int, scoreB int) {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbInsert: Can not open database")
+    }
+    db.Create(&Score{ScoreA: scoreA, ScoreB: scoreB})
+    defer db.Close()
+}
+
+func dbDelete(id int) {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbDelete: Can not open database")
+    }
+
+    var score Score
+    db.First(&score, id)
+    db.Delete(&score)
+    db.Close()
+}
+
+func dbGetAll() []Score {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbGetAll: Can not open database")
+    }
+    var scores []Score
+    db.Order("created_at desc").Find(&scores)
+    db.Close()
+    return scores
+}
+
 type GopherInfo struct {
     ID string
     score int
 }
 
+var gophers = make(map[*melody.Session] *GopherInfo)
+
 func main() {
     router := gin.Default()
     mrouter := melody.New()
-    gophers := make(map[*melody.Session] *GopherInfo)
     lock := new(sync.Mutex)
     counter := 0 //接続した順にIDが振られる
 
@@ -51,14 +100,16 @@ func main() {
 
     mrouter.HandleConnect(func(s *melody.Session) {
         lock.Lock()
-        //Goの構造体あるある　最初広げないと使えないやつだと思う
         for _, info := range gophers {
             s.Write([]byte("set " + info.ID))
         }
         //ここで初期値の書き込み
+        if counter > 2 {
+            //TODO 怒る
+        }
+        counter++  //IDのインクリメント 1か2の値を取る
         gophers[s] = &GopherInfo{strconv.Itoa(counter), 0}
         s.Write([]byte("iam " + gophers[s].ID))
-        counter += 1 //IDのインクリメント
         lock.Unlock()
     })
 
@@ -67,6 +118,7 @@ func main() {
         mrouter.BroadcastOthers([]byte("dis "+gophers[s].ID), s)
         //gophersのs番目削除
         delete(gophers, s)
+        counter--
         lock.Unlock()
     })
 
@@ -90,15 +142,33 @@ func main() {
 
 }
 
+func storeData() {
+    if len(gophers) > 2 {
+        fmt.Println("Error: too much gophers")
+    }
+    var arr[2] int
+
+    n := 0
+    for key, value := range gophers {
+        arr[n] = value.score
+        gophers[key].score = 0
+        n++
+    }
+
+    dbInsert(arr[0], arr[1])
+}
+
 
 func clearTimer(mrouter *melody.Melody) {
     for {
+        /*
         time.Sleep(5 * time.Minute)
         mrouter.Broadcast([]byte("countDown 5"))
         time.Sleep(2 * time.Minute)
         mrouter.Broadcast([]byte("countDown 3"))
         time.Sleep(2 * time.Minute)
         mrouter.Broadcast([]byte("countDown 1"))
+        */
         time.Sleep(55 * time.Second)
         mrouter.Broadcast([]byte("countDown 5"))
         time.Sleep(time.Second)
@@ -111,6 +181,7 @@ func clearTimer(mrouter *melody.Melody) {
         mrouter.Broadcast([]byte("countDown 1"))
 
         time.Sleep(time.Second)
+        storeData()
         mrouter.Broadcast([]byte("clear"))
         mrouter.Broadcast([]byte("countDown 10"))
     }
