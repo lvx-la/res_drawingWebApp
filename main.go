@@ -13,6 +13,7 @@ import (
 
 type GopherInfo struct {
     ID string
+    score int
 }
 
 func main() {
@@ -55,7 +56,7 @@ func main() {
             s.Write([]byte("set " + info.ID))
         }
         //ここで初期値の書き込み
-        gophers[s] = &GopherInfo{strconv.Itoa(counter)}
+        gophers[s] = &GopherInfo{strconv.Itoa(counter), 0}
         s.Write([]byte("iam " + gophers[s].ID))
         counter += 1 //IDのインクリメント
         lock.Unlock()
@@ -76,6 +77,7 @@ func main() {
         if p[0] == "Draw" {
             info := gophers[s]
             mrouter.BroadcastOthers([]byte("set "+info.ID+" "+p[1]+" "+p[2]+" "+p[3]+" "+p[4]), s)
+            info.score++
         } else {
             mrouter.BroadcastOthers(msg, s)
         }
@@ -87,6 +89,7 @@ func main() {
     router.Run(":5000")
 
 }
+
 
 func clearTimer(mrouter *melody.Melody) {
     for {
