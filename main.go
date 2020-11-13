@@ -4,6 +4,7 @@ import (
     "github.com/gin-gonic/gin"
     "gopkg.in/olahol/melody.v1"
     "github.com/jinzhu/gorm"
+    _"github.com/mattn/go-sqlite3"
     "net/http"
     "strconv"
     "strings"
@@ -84,6 +85,9 @@ func main() {
     router.Static("/css", "./css")
 
     router.GET("/", func(c *gin.Context) {
+        if counter > 2 {
+            http.ServeFile(c.Writer, c.Request, "wait.html")
+        }
         http.ServeFile(c.Writer, c.Request, "index.html")
     })
 
@@ -106,9 +110,6 @@ func main() {
             s.Write([]byte("set " + info.ID))
         }
         //ここで初期値の書き込み
-        if counter > 2 {
-            //TODO 怒る
-        }
         counter++  //IDのインクリメント 1か2の値を取る
         gophers[s] = &GopherInfo{strconv.Itoa(counter), 0}
         s.Write([]byte("iam " + gophers[s].ID))
