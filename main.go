@@ -91,6 +91,15 @@ func main() {
         http.ServeFile(c.Writer, c.Request, "index.html")
     })
 
+    router.LoadHTMLGlob("templates/*.tmpl")
+
+    router.GET("/scoredata", func(c *gin.Context) {
+        mainscores := dbGetAll()
+        c.HTML(http.StatusOK, "scoredata.tmpl", gin.H{
+            "a": mainscores,
+        })
+    })
+
     router.GET("/ws", func(c *gin.Context) {
         mrouter.HandleRequest(c.Writer, c.Request)
     })
