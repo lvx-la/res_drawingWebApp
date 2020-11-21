@@ -182,14 +182,12 @@ func storeData() int{
 
 func clearTimer(mrouter *melody.Melody) {
     for {
-        /*
         time.Sleep(5 * time.Minute)
         mrouter.Broadcast([]byte("countDown 5"))
         time.Sleep(2 * time.Minute)
         mrouter.Broadcast([]byte("countDown 3"))
         time.Sleep(2 * time.Minute)
         mrouter.Broadcast([]byte("countDown 1"))
-        */
         time.Sleep(55 * time.Second)
         mrouter.Broadcast([]byte("countDown 5"))
         time.Sleep(time.Second)
