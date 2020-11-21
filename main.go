@@ -3,6 +3,8 @@ package main
 import (
     "github.com/gin-gonic/gin"
     "gopkg.in/olahol/melody.v1"
+    "github.com/jinzhu/gorm"
+    _"github.com/mattn/go-sqlite3"
     "net/http"
     "strconv"
     "strings"
@@ -12,16 +14,67 @@ import (
     "os"
 )
 
+type Score struct {
+    gorm.Model
+    ScoreA int
+    ScoreB int
+}
+
+func dbInit() {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbinit: Can not open database")
+    }
+    db.AutoMigrate(&Score{})
+    defer db.Close()
+}
+
+func dbInsert(scoreA int, scoreB int) {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbInsert: Can not open database")
+    }
+    db.Create(&Score{ScoreA: scoreA, ScoreB: scoreB})
+    defer db.Close()
+}
+
+func dbDelete(id int) {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbDelete: Can not open database")
+    }
+
+    var score Score
+    db.First(&score, id)
+    db.Delete(&score)
+    db.Close()
+}
+
+func dbGetAll() []Score {
+    db, err := gorm.Open("sqlite3", "engagement.sqlite3")
+    if err != nil {
+        fmt.Println("dbGetAll: Can not open database")
+    }
+    var scores []Score
+    db.Order("created_at desc").Find(&scores)
+    db.Close()
+    return scores
+}
+
 type GopherInfo struct {
     ID string
+    score int
 }
+
+var gophers = make(map[*melody.Session] *GopherInfo)
 
 func main() {
     router := gin.Default()
     mrouter := melody.New()
-    gophers := make(map[*melody.Session] *GopherInfo)
     lock := new(sync.Mutex)
     counter := 0 //接続した順にIDが振られる
+
+    dbInit()
 
     mrouter.Upgrader.ReadBufferSize = 8192
     mrouter.Upgrader.WriteBufferSize = 8192
@@ -33,7 +86,19 @@ func main() {
     router.Static("/css", "./css")
 
     router.GET("/", func(c *gin.Context) {
+        if counter >= 2 {
+            http.ServeFile(c.Writer, c.Request, "wait.html")
+        }
         http.ServeFile(c.Writer, c.Request, "index.html")
+    })
+
+    router.LoadHTMLGlob("templates/*.tmpl")
+
+    router.GET("/scoredata", func(c *gin.Context) {
+        mainscores := dbGetAll()
+        c.HTML(http.StatusOK, "scoredata.tmpl", gin.H{
+            "a": mainscores,
+        })
     })
 
     router.GET("/ws", func(c *gin.Context) {
@@ -51,14 +116,14 @@ func main() {
 
     mrouter.HandleConnect(func(s *melody.Session) {
         lock.Lock()
-        //Goの構造体あるある　最初広げないと使えないやつだと思う
         for _, info := range gophers {
             s.Write([]byte("set " + info.ID))
         }
         //ここで初期値の書き込み
-        gophers[s] = &GopherInfo{strconv.Itoa(counter)}
+        counter++  //IDのインクリメント 1か2の値を取る
+        fmt.Println("connected counter", counter)
+        gophers[s] = &GopherInfo{strconv.Itoa(counter), 0}
         s.Write([]byte("iam " + gophers[s].ID))
-        counter += 1 //IDのインクリメント
         lock.Unlock()
     })
 
@@ -67,6 +132,7 @@ func main() {
         mrouter.BroadcastOthers([]byte("dis "+gophers[s].ID), s)
         //gophersのs番目削除
         delete(gophers, s)
+        counter--
         lock.Unlock()
     })
 
@@ -77,6 +143,7 @@ func main() {
         if p[0] == "Draw" {
             info := gophers[s]
             mrouter.BroadcastOthers([]byte("set "+info.ID+" "+p[1]+" "+p[2]+" "+p[3]+" "+p[4]), s)
+            info.score++
         } else {
             mrouter.BroadcastOthers(msg, s)
         }
@@ -89,6 +156,31 @@ func main() {
     router.Run(":" + port)
 
 }
+
+func storeData() int{
+    if len(gophers) > 2 {
+        fmt.Println("Error: too much gophers")
+        return 0
+    }
+
+    //ソロはデータを入力しない
+    if len(gophers) == 1{
+        return 0
+    }
+
+    var arr[2] int
+
+    n := 0
+    for key, value := range gophers {
+        arr[n] = value.score
+        gophers[key].score = 0
+        n++
+    }
+
+    dbInsert(arr[0], arr[1])
+    return 0
+}
+
 
 func clearTimer(mrouter *melody.Melody) {
     for {
@@ -110,6 +202,7 @@ func clearTimer(mrouter *melody.Melody) {
         mrouter.Broadcast([]byte("countDown 1"))
 
         time.Sleep(time.Second)
+        storeData()
         mrouter.Broadcast([]byte("clear"))
         mrouter.Broadcast([]byte("countDown 10"))
     }
