@@ -85,7 +85,7 @@ func main() {
     router.Static("/css", "./css")
 
     router.GET("/", func(c *gin.Context) {
-        if counter > 2 {
+        if counter >= 2 {
             http.ServeFile(c.Writer, c.Request, "wait.html")
         }
         http.ServeFile(c.Writer, c.Request, "index.html")
@@ -120,6 +120,7 @@ func main() {
         }
         //ここで初期値の書き込み
         counter++  //IDのインクリメント 1か2の値を取る
+        fmt.Println("connected counter", counter)
         gophers[s] = &GopherInfo{strconv.Itoa(counter), 0}
         s.Write([]byte("iam " + gophers[s].ID))
         lock.Unlock()
@@ -157,6 +158,7 @@ func main() {
 func storeData() int{
     if len(gophers) > 2 {
         fmt.Println("Error: too much gophers")
+        return 0
     }
 
     //ソロはデータを入力しない
