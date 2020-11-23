@@ -17,6 +17,9 @@
 #local_video {
     position: absolute;
     z-index: 3;
+    width: 216px;
+    height: 384px;
+    border: solid 1px #000000;
 }
 
 #can {

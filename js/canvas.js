@@ -1,6 +1,6 @@
 
 /* WebSocket */
-var url = "ws://" + window.location.host + "/ws";
+var url = "wss://" + window.location.host + "/ws";
 var ws = new WebSocket(url);
 var myid = -1;
 
@@ -25,8 +25,6 @@ function mam_draw_init(){
     ct.lineJoin="round";
     ct.lineCap="round";
 
-    localVideo = document.getElementById("local_video");
-    //remoteVideo = document.getElementById("remote_video");
     //videocap();
 
     docUTime = document.getElementById("uTime");
@@ -68,8 +66,29 @@ function message_parse(rcv_msg) {
     }
 }
 
+function whichvideo() {
+    remoteVideo = document.getElementById("remote_video");
+    localVideo = document.getElementById("local_video");
+
+    switch (myid) {
+        case "1":
+            remoteVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            localVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            break;
+        case "2":
+            remoteVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            localVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            break;
+        default:
+            remoteVideo.src = "./images/Default_image.png"
+            break;
+
+    }
+}
+
 function iam(id) {
     myid = id;
+    whichvideo();
 }
 
 //ロードされた時に初期化される グロ変

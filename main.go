@@ -83,6 +83,7 @@ func main() {
 
     router.Static("/js", "./js")
     router.Static("/css", "./css")
+    router.Static("/images", "./images")
 
     router.GET("/", func(c *gin.Context) {
         if counter >= 2 {
