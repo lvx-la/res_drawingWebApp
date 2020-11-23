@@ -86,11 +86,15 @@ function pointAdd(id) {
     }
 
     if (scoreA > scoreB) {
-        pointValueMe.style.fontSize = "30px"
-        pointValueEn.style.fontSize = "20px"
+        pointValueMe.style.fontSize = "100px"
+        pointValueMe.style.borderWidth = "10px"
+        pointValueEn.style.fontSize = "80px"
+        pointValueEn.style.borderWidth = "0px"
     } else {
-        pointValueEn.style.fontSize = "30px"
-        pointValueMe.style.fontSize = "20px"
+        pointValueEn.style.fontSize = "100px"
+        pointValueEn.style.borderWidth = "10px"
+        pointValueMe.style.fontSize = "80px"
+        pointValueMe.style.borderWidth = "0px"
     }
 }
 
