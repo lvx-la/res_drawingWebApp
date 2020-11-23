@@ -1,6 +1,6 @@
 
 /* WebSocket */
-var url = "wss://" + window.location.host + "/ws";
+var url = "ws://" + window.location.host + "/ws";
 var ws = new WebSocket(url);
 var myid = -1;
 
@@ -26,7 +26,7 @@ function mam_draw_init(){
     ct.lineCap="round";
 
     localVideo = document.getElementById("local_video");
-    remoteVideo = document.getElementById("remote_video");
+    //remoteVideo = document.getElementById("remote_video");
     //videocap();
 
     docUTime = document.getElementById("uTime");
@@ -180,7 +180,9 @@ function clearCan(){
     ct.clearRect(0, 0, ct.canvas.clientWidth, ct.canvas.clientHeight);
 }
 
-/*---------------------------------- Video Script ----------------------------------------- */
+/*
+
+// ---------------------------------- Video Script ----------------------------------------- 
 
 let localStream = null;
 let peerConnection = null;
@@ -272,9 +274,11 @@ function pauseVideo(element) {
   }
 }
 
-/*
-Hamada WebSocketで送る文字が sessionDescription.sdp
-*/
+
+//Hamada WebSocketで送る文字が sessionDescription.sdp
+
+
+
 function sendSdp(sessionDescription) {
   console.log('---sending sdp ---');
 
@@ -450,4 +454,4 @@ function videocap(){
     );
 }
 
-        
+*/
