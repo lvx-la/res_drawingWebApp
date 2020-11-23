@@ -72,12 +72,12 @@ function whichvideo() {
 
     switch (myid) {
         case "1":
-            remoteVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
-            localVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            remoteVideo.src = "https://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            localVideo.src = "https://192.168.0.90/axis-cgi/mjpg/video.cgi"
             break;
         case "2":
-            remoteVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
-            localVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            remoteVideo.src = "https://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            localVideo.src = "https://192.168.0.90/axis-cgi/mjpg/video.cgi"
             break;
         default:
             remoteVideo.src = "./images/Default_image.png"
