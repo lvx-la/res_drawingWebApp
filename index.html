@@ -11,21 +11,22 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body onload="mam_draw_init();">
+
     <h1>どこでもお絵かき</h1>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-10">
-                <button type="button" onclick="startVideo();" class="btn btn-primary">Start Video</button>
-                <button type="button" onclick="stopVideo();" class="btn btn-danger">Stop Video</button>
-                &nbsp;
-                <button type="button" onclick="connect();" class="btn btn-success">Connect</button>
-                <button type="button" onclick="hangUp();" class="btn btn-warning">Hang Up</button>
-                <p id=uTime>10</p>
+            <div class="col-sm-1">
+                <p id="uppercolmn">ERASE</p>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p id=uTime>600s</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-sm-2">
-                <p id=score>score</p>
+            <div class="col-sm-11">
+                <p id="uppercolmn">SCORE</p>
                 <div class="row">
                     <div class="col-sm-6">
                         <p id=pointValueMe>0</p>
@@ -49,9 +50,10 @@
             <div class="col-sm-12">
 
                 <div class="video-wrap" id="candiv">
-                    <video id="local_video" autoplay muted playsinline style="width: 160px; height: 120px; border: 1px solid black;"></video>
-                    <canvas id="can" width="1280px" height="720px"></canvas>
-                    <video id="remote_video" autoplay muted playinline width="1280" height="720"></video>   
+                    <img id="local_video" src="./images/Default_image.png"></img>
+                    <canvas id="can" width="2160px" height="3840px"></canvas>
+
+                    <img id="remote_video" src="./images/Default_image.png"></img>
                 </div>
 
             </div>
