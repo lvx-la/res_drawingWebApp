@@ -83,6 +83,7 @@ func main() {
 
     router.Static("/js", "./js")
     router.Static("/css", "./css")
+    router.Static("/images", "./images")
 
     router.GET("/", func(c *gin.Context) {
         if counter >= 2 {
@@ -183,25 +184,25 @@ func storeData() int{
 func clearTimer(mrouter *melody.Melody) {
     for {
         time.Sleep(5 * time.Minute)
-        mrouter.Broadcast([]byte("countDown 5"))
+        mrouter.Broadcast([]byte("countDown 300s"))
         time.Sleep(2 * time.Minute)
-        mrouter.Broadcast([]byte("countDown 3"))
+        mrouter.Broadcast([]byte("countDown 180s"))
         time.Sleep(2 * time.Minute)
-        mrouter.Broadcast([]byte("countDown 1"))
+        mrouter.Broadcast([]byte("countDown 60s"))
         time.Sleep(55 * time.Second)
-        mrouter.Broadcast([]byte("countDown 5"))
+        mrouter.Broadcast([]byte("countDown 5s"))
         time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 4"))
+        mrouter.Broadcast([]byte("countDown 4s"))
         time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 3"))
+        mrouter.Broadcast([]byte("countDown 3s"))
         time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 2"))
+        mrouter.Broadcast([]byte("countDown 2s"))
         time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 1"))
+        mrouter.Broadcast([]byte("countDown 1s"))
 
         time.Sleep(time.Second)
         storeData()
         mrouter.Broadcast([]byte("clear"))
-        mrouter.Broadcast([]byte("countDown 10"))
+        mrouter.Broadcast([]byte("countDown 10min"))
     }
 }

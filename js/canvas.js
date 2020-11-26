@@ -25,8 +25,6 @@ function mam_draw_init(){
     ct.lineJoin="round";
     ct.lineCap="round";
 
-    localVideo = document.getElementById("local_video");
-    remoteVideo = document.getElementById("remote_video");
     //videocap();
 
     docUTime = document.getElementById("uTime");
@@ -68,8 +66,29 @@ function message_parse(rcv_msg) {
     }
 }
 
+function whichvideo() {
+    remoteVideo = document.getElementById("remote_video");
+    localVideo = document.getElementById("local_video");
+
+    switch (myid) {
+        case "1":
+            remoteVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            localVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            break;
+        case "2":
+            remoteVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            localVideo.src = "http://192.168.0.90/axis-cgi/mjpg/video.cgi"
+            break;
+        default:
+            remoteVideo.src = "./images/Default_image.png"
+            break;
+
+    }
+}
+
 function iam(id) {
     myid = id;
+    whichvideo();
 }
 
 //ロードされた時に初期化される グロ変
@@ -86,11 +105,15 @@ function pointAdd(id) {
     }
 
     if (scoreA > scoreB) {
-        pointValueMe.style.fontSize = "30px"
-        pointValueEn.style.fontSize = "20px"
+        pointValueMe.style.fontSize = "100px"
+        pointValueMe.style.borderWidth = "10px"
+        pointValueEn.style.fontSize = "80px"
+        pointValueEn.style.borderWidth = "0px"
     } else {
-        pointValueEn.style.fontSize = "30px"
-        pointValueMe.style.fontSize = "20px"
+        pointValueEn.style.fontSize = "100px"
+        pointValueEn.style.borderWidth = "10px"
+        pointValueMe.style.fontSize = "80px"
+        pointValueMe.style.borderWidth = "0px"
     }
 }
 
@@ -180,7 +203,9 @@ function clearCan(){
     ct.clearRect(0, 0, ct.canvas.clientWidth, ct.canvas.clientHeight);
 }
 
-/*---------------------------------- Video Script ----------------------------------------- */
+/*
+
+// ---------------------------------- Video Script ----------------------------------------- 
 
 let localStream = null;
 let peerConnection = null;
@@ -272,9 +297,11 @@ function pauseVideo(element) {
   }
 }
 
-/*
-Hamada WebSocketで送る文字が sessionDescription.sdp
-*/
+
+//Hamada WebSocketで送る文字が sessionDescription.sdp
+
+
+
 function sendSdp(sessionDescription) {
   console.log('---sending sdp ---');
 
@@ -450,4 +477,4 @@ function videocap(){
     );
 }
 
-        
+*/
