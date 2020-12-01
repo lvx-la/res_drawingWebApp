@@ -21,7 +21,7 @@ function mam_draw_init(){
     can.addEventListener("mousemove",onMouseMove,false);
     can.addEventListener("mouseup",onMouseUp,false);
     ct=can.getContext("2d");
-    ct.lineWidth=5;
+    ct.lineWidth=20;
     ct.lineJoin="round";
     ct.lineCap="round";
 

@@ -2,16 +2,25 @@
 
 .video-wrap {
     position: relative;
-    border:solid 1px #000000;
-    width:1280px;
-    height:720px;
+    border: solid 1px #000000;
+    width: 2140px;
+    height: 3550px;
+}
+
+.row-eq-height {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.topcolmn {
+    height: 100%;
 }
 
 #remote_video {
     position: absolute; 
     z-index: 1;
-    width: 2160px;
-    height: 3840px;
+    width: 2140px;
+    height: 3550px;
 }
 
 #local_video {
@@ -50,7 +59,7 @@ h1 {
     text-align: center;
     color: #7fff00;
     font-family: 'Rye', cursive;
-    font-size: 80px;
+    font-size: 110px;
     border-bottom: solid;
     border-color: #7fff00;
     border-width: 0px;
@@ -61,7 +70,7 @@ h1 {
     text-align: center;
     color: #ff1493;
     font-family: 'Rye', cursive;
-    font-size: 80px;
+    font-size: 110px;
     border-bottom: solid;
     border-color: #ff1493;
     border-width: 0px;
