@@ -73,10 +73,10 @@ function whichvideo() {
     switch (myid) {
         case "1":
             remoteVideo.src = "http://172.16.1.11/camera/1/"
-            localVideo.src = "http://172.16.1.11/camera/1/"
+            localVideo.src = "http://172.16.1.11/camera/2/"
             break;
         case "2":
-            remoteVideo.src = "http://172.16.1.11/camera/1/"
+            remoteVideo.src = "http://172.16.1.11/camera/2/"
             localVideo.src = "http://172.16.1.11/camera/1/"
             break;
         default:

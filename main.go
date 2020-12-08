@@ -164,8 +164,8 @@ func storeData() int{
         return 0
     }
 
-    //ソロはデータを入力しない
-    if len(gophers) == 1{
+    //ソロと誰もいない時はデータを入力しない
+    if len(gophers) <= 1{
         return 0
     }
 
