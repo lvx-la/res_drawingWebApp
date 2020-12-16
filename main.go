@@ -11,7 +11,7 @@ import (
     "sync"
     "fmt"
     "time"
-    "os"
+    //"os"
 )
 
 type Score struct {
@@ -153,8 +153,7 @@ func main() {
 
     go clearTimer(mrouter)
 
-    port := os.Getenv("PORT")
-    router.Run(":" + port)
+    router.Run(":5000")
 
 }
 
