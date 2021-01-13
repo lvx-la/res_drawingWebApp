@@ -1,8 +1,20 @@
+![成績](https://img.shields.io/badge/成績-*-red)<br>
 # res_drawingWebApp
-for research, to create online drawable web app <br>
 
 # 実機はこんな感じです
-![サイネージ概要](https://user-images.githubusercontent.com/44363325/104407045-19c0df00-55a4-11eb-9633-89894d6f6c11.jpg)
+![サイネージ概要](https://user-images.githubusercontent.com/44363325/104407045-19c0df00-55a4-11eb-9633-89894d6f6c11.jpg) ああ<br>
+<br>
+##　機能のフィーチャー <br>
+- なぞって絵を描ける
+- その絵は2地点間で共有される
+- 絵の背景は反対側のサイネージ からの景色をリアルタイムに映し出す
+<br>
+## 研究の目的 <br>
+短い会話を空間からのアプローチで増やす <br>
+
+## 研究の目的の背景 <br>
+組織にとって短い会話が少ない日は業績が悪化する可能性があるため(大端折り)<br>
+その短い会話は、オフィスなどをはじめとした空間が主に提供しているが、COVID-19の台頭により職場が分散される傾向にあるため、減少傾向にあることが懸念されるため。<br>
 
 # 開発日記 <br>
 # 8月13日 <br>
