@@ -11,6 +11,10 @@ import (
     "sync"
     "fmt"
     "time"
+<<<<<<< HEAD
+=======
+    //"os"
+>>>>>>> 40fc8e2ef724812f531416ec05d8372fca9a074e
 )
 
 type Score struct {
@@ -183,26 +187,7 @@ func storeData() int{
 
 func clearTimer(mrouter *melody.Melody) {
     for {
-        time.Sleep(5 * time.Minute)
-        mrouter.Broadcast([]byte("countDown 300s"))
-        time.Sleep(2 * time.Minute)
-        mrouter.Broadcast([]byte("countDown 180s"))
-        time.Sleep(2 * time.Minute)
-        mrouter.Broadcast([]byte("countDown 60s"))
-        time.Sleep(55 * time.Second)
-        mrouter.Broadcast([]byte("countDown 5s"))
-        time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 4s"))
-        time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 3s"))
-        time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 2s"))
-        time.Sleep(time.Second)
-        mrouter.Broadcast([]byte("countDown 1s"))
-
-        time.Sleep(time.Second)
+        time.Sleep(1 * time.Minute)
         storeData()
-        mrouter.Broadcast([]byte("clear"))
-        mrouter.Broadcast([]byte("countDown 10min"))
     }
 }

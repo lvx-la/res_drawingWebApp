@@ -25,6 +25,12 @@ function mam_draw_init(){
     ct.lineJoin="round";
     ct.lineCap="round";
 
+    const defOekakiImage = new Image();
+    defOekakiImage.src = "./images/canvas1.jpg";
+    defOekakiImage.onload = () => {
+        ct.drawImage(defOekakiImage, 0, 0);
+    };
+
     //videocap();
 
     docUTime = document.getElementById("uTime");
