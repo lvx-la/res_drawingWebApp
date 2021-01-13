@@ -2,7 +2,7 @@
 for research, to create online drawable web app <br>
 
 # 実機はこんな感じです
-![サイネージ概要](https://user-images.githubusercontent.com/44363325/104406685-34468880-55a3-11eb-93ba-438049355b0b.jpg)
+![サイネージ概要](https://user-images.githubusercontent.com/44363325/104407045-19c0df00-55a4-11eb-9633-89894d6f6c11.jpg)
 
 # 開発日記 <br>
 # 8月13日 <br>
