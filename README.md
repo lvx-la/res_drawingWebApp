@@ -17,8 +17,8 @@
 その短い会話は、オフィスなどをはじめとした空間が主に提供しているが、COVID-19の台頭により職場が分散される傾向にあるため、減少傾向にあることが懸念されるため。<br>
 
 ## 備考 <br>
-![olahol/melody](https://github.com/olahol/melody) の Example: gophers を改造して作りました、あざす。<br>
-![WebRTC参考リンク](https://html5experts.jp/mganeko/19728/) ブランチ pcusbcum では WebRTCを使ってPCのUSBカメラで同様のことができます(クソだけど)。<br>
+[olahol/melody](https://github.com/olahol/melody) の Example: gophers を改造して作りました、あざす。<br>
+[WebRTC参考リンク](https://html5experts.jp/mganeko/19728/) ブランチ pcusbcum では WebRTCを使ってPCのUSBカメラで同様のことができます(クソだけど)。<br>
 
 # 開発日記 <br>
 # 8月13日 <br>
