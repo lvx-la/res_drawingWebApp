@@ -1,14 +1,14 @@
-![成績](https://img.shields.io/badge/成績-*-red)<br>
+![成績](https://img.shields.io/badge/成績-*-red) ![デプロイ](https://img.shields.io/github/deployments/lvx-la/res_drawingWebApp/resdrawingwebapp2) <br>
 # res_drawingWebApp
 
 # 実機はこんな感じです
-![サイネージ概要](https://user-images.githubusercontent.com/44363325/104407045-19c0df00-55a4-11eb-9633-89894d6f6c11.jpg) ああ<br>
-<br>
+![サイネージ概要](https://user-images.githubusercontent.com/44363325/104407045-19c0df00-55a4-11eb-9633-89894d6f6c11.jpg) <br>
+
 ##　機能のフィーチャー <br>
 - なぞって絵を描ける
 - その絵は2地点間で共有される
 - 絵の背景は反対側のサイネージ からの景色をリアルタイムに映し出す
-<br>
+
 ## 研究の目的 <br>
 短い会話を空間からのアプローチで増やす <br>
 
