@@ -52,6 +52,35 @@
 [olahol/melody](https://github.com/olahol/melody) の Example: gophers を改造して作りました、あざす。<br>
 [WebRTC参考リンク](https://html5experts.jp/mganeko/19728/) これのおかげで　ブランチ pcusbcum では WebRTCを使ってPCのUSBカメラで同様のことができます(クソだけど)。<br>
 
+# 試したい人向け <br>
+適当にCloneしてgo run main.goすればいいかな？go getしないとエラるかもしれないんでgo.mod適当に読んでうまいこと必要なモジュールインスコしてください。<br>
+Webカメラのipは[js/canvas.js](https://github.com/lvx-la/res_drawingWebApp/blob/master/js/canvas.js) の wichvideo() {} のswitch文で指定されているので、そこらへんのアドレスをいい感じにいじりましよう。<br>
+Ginを起動する際にポートの指定が必要なのですが、[main.go](https://github.com/lvx-la/res_drawingWebApp/blob/master/main.go)のrouter.Run()をいい感じにいじりましょう、ちなみにHerokuでやるなら、ポート番号はHerokuのシェル上かなんかの"PORT"という環境変数にしまわれているのでos.Getenv("PORT")でゲッツしてRunメソッドの引数に突っ込んでやりましょう。ローカルで試すなら適当に5000番とか指定してあげましょう。<br>
+
+# コード弄りたい人向け<br>
+そんな物好きな変態はいないと思いますが一応再現しやすいようにこの章で情報を与えてやります。<br>
+まずそもそもmelodyとginのサンプルコードを脳死で流用した行が大半なので汚コードof汚コードです、気をつけてください。<br>
+使うブランチはopr(本番環境)とmaster(テスト環境)だけで十分です、あとPCでお絵かきする版のpcusbcamブランチくらいです。他は開発用ブランチを切ってないだけで残り続けているゾンビブランチです<br>
+## main.go <br>
+機能と実装は主に<br>
+- データベース関係の機能<br>
+- 落書き消去インターバルのタイマー<br>
+- websocketサーバー<br>
+となってます。<br>
+## js/canvas.js <br>
+機能と実装は主に<br>
+- websocket接続<br>
+- canvasのお絵かき機能<br>
+- (あんまり意味をなさなかった)ポイント機能<br>
+- HTMLの動的書き換え
+くらいです。<br>
+
+Websocketの通信内容はJSONなどと言った高貴なモノではなくて半角スペースで区切った文字列ですw　melodyのサンプルコードを流用しただけなので文句は俺に言わないでください。<br>
+
+説明するのはめんどくさいのでエンジニア兄貴は頑張ってコードを読んでください。<br>
+論文に使いたいよって人は、アイデアだけ~~パクって~~引用してPHPとか使って自力で作り上げたほうが楽かもね<br>
+卒論中の実装のところでも変な模式図よりUML図書けよ！！って自分でも思いますが気がついたらPhotoshop起動して作っていたのでスマン　今更作り直す気力ねえわ。<br>
+<br>
 # 開発日記 <br>
 # 8月13日 <br>
 リポジトリをやっと作った。Goでいけそう　頑張る <br>
