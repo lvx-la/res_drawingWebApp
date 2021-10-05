@@ -1,4 +1,4 @@
-![成績](https://img.shields.io/badge/成績-*-red) ![デプロイ](https://img.shields.io/github/deployments/lvx-la/res_drawingWebApp/resdrawingwebapp2) <br>
+![成績](https://img.shields.io/badge/成績-A-green) ![デプロイ](https://img.shields.io/github/deployments/lvx-la/res_drawingWebApp/resdrawingwebapp2) <br>
 # res_drawingWebApp
 
 # 実機はこんな感じです
